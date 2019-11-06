@@ -108,7 +108,8 @@ services:
       - "4171:4171"
 
   scala-stream-collector:
-    image: snowplow-docker-registry.bintray.io/snowplow/scala-stream-collector-nsq:0.13.0
+    build: ./collector_container
+    image: scala-stream-collector-nsq:0.16.0
     container_name: scala-stream-collector-nsq
     command: [ "--config", "/snowplow/config/snowplow-stream-collector.hocon" ]
     restart: always
