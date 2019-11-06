@@ -1,16 +1,12 @@
 ---
-- name: Update apt cache
-  apt: update-cache=yes cache_valid_time=86400
-  become: yes
-
 - name: install basic packages
   become: yes
-  apt: pkg={{ item }} state=latest
+  apt:
+    pkg: ['curl', 'unzip', 'resolvconf']
+    state: latest
+    update-cache: yes
+    cache_valid_time: 86400
   tags: [packages]
-  with_items:
-    - curl
-    - unzip
-    - resolvconf
 
 - name: Add Google DNS nameserver
   lineinfile:
@@ -20,4 +16,6 @@
 
 - name: Restart resolveconf service
   become: yes
-  shell: service resolvconf restart
+  service:
+    name: resolvconf
+    state: restarted

@@ -1,6 +1,6 @@
 ---
 - name: Install Typescript, Browserify and Uglify
-  command: "{{ item }}" 
+  command: "{{ item }}"
   become: yes
   with_items:
     - "npm install -g typescript@2.3.2"

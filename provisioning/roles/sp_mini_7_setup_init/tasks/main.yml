@@ -5,7 +5,7 @@
   become: yes
   copy:
     remote_src: true
-    src: "{{init_dir}}/{{item}}"
+    src: "{{ init_dir }}/{{ item }}"
     dest: "/etc/init.d"
     mode: 0755
   with_items:
@@ -15,7 +15,7 @@
 
 - name: Configure for inits for calling at boot time
   become: yes
-  shell: "update-rc.d {{item}} defaults"
+  shell: "update-rc.d {{ item }} defaults"
   with_items:
     - snowplow_mini
     - snowplow_mini_control_plane_api

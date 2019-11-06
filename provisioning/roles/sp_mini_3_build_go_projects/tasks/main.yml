@@ -3,7 +3,7 @@
 
 - name: Set variables
   set_fact:
-    control_plane_dir: '{{playbook_dir}}/resources/control-plane'
+    control_plane_dir: '{{ playbook_dir }}/resources/control-plane'
     go_bin: '/usr/local/go/bin'
     go_path: "{{ lookup('env', 'HOME') }}/go"
 
@@ -19,13 +19,13 @@
   become: yes
   environment:
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
-  shell: "go build -o {{control_plane_dir}}/snowplow-mini-control-plane-api {{control_plane_dir}}/*.go"
+  shell: "go build -o {{ control_plane_dir }}/snowplow-mini-control-plane-api {{ control_plane_dir }}/*.go"
 
 - name: Copy Control Plane API to executables dir
   become: yes
   synchronize:
-    src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
-    dest: "{{executables_dir}}"
+    src: "{{ control_plane_dir }}/snowplow-mini-control-plane-api"
+    dest: "{{ executables_dir }}"
 
 - name: Build Caddy
   environment:
@@ -40,4 +40,4 @@
   become: yes
   synchronize:
     src: "{{ go_path }}/bin/caddy"
-    dest: "{{executables_dir}}"
+    dest: "{{ executables_dir }}"

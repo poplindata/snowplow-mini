@@ -3,21 +3,21 @@
 
 - name: Set variables
   set_fact:
-    control_plane_dir: '{{playbook_dir}}/resources/control-plane'
+    control_plane_dir: '{{ playbook_dir }}/resources/control-plane'
     go_bin: '/usr/local/go/bin'
     go_path: "{{ lookup('env', 'HOME') }}/go"
 
 - name: Copy Control Plane API to executables dir
   become: yes
   synchronize:
-    src: "{{control_plane_dir}}/snowplow-mini-control-plane-api"
-    dest: "{{executables_dir}}"
+    src: "{{ control_plane_dir }}/snowplow-mini-control-plane-api"
+    dest: "{{ executables_dir }}"
 
 - name: Copy VERSION file to /home/ubuntu/snowplow for Control API
   become: yes
   synchronize:
-     src: "{{playbook_dir}}/../VERSION"
-     dest: "{{main_dir}}"
+     src: "{{ playbook_dir }}/../VERSION"
+     dest: "{{ main_dir }}"
 
 - name: Copy Caddy executable to executables dir
   become: yes
@@ -25,14 +25,14 @@
     PATH: "{{ lookup('env','PATH') }}:{{ go_bin }}"
     GOPATH: "{{ go_path }}"
   synchronize:
-    src: "{{executables_dir}}/caddy"
-    dest: "{{executables_dir}}"
+    src: "{{ executables_dir }}/caddy"
+    dest: "{{ executables_dir }}"
 
 - name: Set owner of the main directory
   become: yes
   args:
     warn: false
-  shell: "chown -R ubuntu:ubuntu {{main_dir}} && chmod 755 -R {{main_dir}}"
+  shell: "chown -R ubuntu:ubuntu {{ main_dir }} && chmod 755 -R {{ main_dir }}"
 
 - name: Adjust kernel limits to use Caddy in production settings
   become: yes

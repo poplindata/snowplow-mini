@@ -3,7 +3,7 @@
 
 - name: Set nsq data directory
   set_fact:
-    nsq_data_dir: "{{main_dir}}/nsq-data"
+    nsq_data_dir: "{{ main_dir }}/nsq-data"
 
 - name: Create user ubuntu and disable password
   become: yes
@@ -11,23 +11,23 @@
           passwd -d ubuntu'
 
 - name: creating directories
-  file: path={{item}} state=directory mode=0755
+  file: path={{ item }} state=directory mode=0755
   with_items:
-    - "{{configs_dir}}"
-    - "{{staging_dir}}"
-    - "{{executables_dir}}"
-    - "{{es_dir}}"
-    - "{{scripts_dir}}"
-    - "{{init_dir}}"
-    - "{{ui_dir}}"
-    - "{{nsq_data_dir}}"
+    - "{{ configs_dir }}"
+    - "{{ staging_dir }}"
+    - "{{ executables_dir }}"
+    - "{{ es_dir }}"
+    - "{{ scripts_dir }}"
+    - "{{ init_dir }}"
+    - "{{ ui_dir }}"
+    - "{{ nsq_data_dir }}"
 
 #playbook_dir is ansible defined variable which stores top level ansible-playbook directory
 - name: Copy folders to the /home/ubuntu/snowplow
   become: yes
   copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
   with_items:
-    - { src: "{{playbook_dir}}/resources/elasticsearch", dest: "{{main_dir}}" }
-    - { src: "{{playbook_dir}}/resources/configs", dest: "{{main_dir}}" }
-    - { src: "{{playbook_dir}}/resources/init", dest: "{{main_dir}}" }
-    - { src: "{{playbook_dir}}/resources/caddy", dest: "{{main_dir}}" }
+    - { src: "{{ playbook_dir }}/resources/elasticsearch", dest: "{{ main_dir }}" }
+    - { src: "{{ playbook_dir }}/resources/configs", dest: "{{ main_dir }}" }
+    - { src: "{{ playbook_dir }}/resources/init", dest: "{{ main_dir }}" }
+    - { src: "{{ playbook_dir }}/resources/caddy", dest: "{{ main_dir }}" }
