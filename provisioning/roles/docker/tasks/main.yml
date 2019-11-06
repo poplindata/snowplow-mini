@@ -1,24 +1,28 @@
 ---
 - include_vars: ../../common_vars.yml
 
-- name: Setup the docker repository and install docker
+- name: Setup the docker repository gpg key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Setup the docker repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Install docker
   become: yes
-  shell: |
-    apt-get update
-    apt-get install apt-transport-https ca-certificates curl software-properties-common --yes
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    apt-get update && apt-get install docker-ce --yes
+  apt:
+    pkg: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'docker-ce']
+    state: latest
 
 - name: Download docker-compose
   become: yes
-  shell: curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-
-- name: Apply executable permissions to the docker-compose binary
-  become: yes
-  args:
-    warn: false
-  shell: chmod +x /usr/local/bin/docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+    dest: /usr/local/bin/docker-compose
+    mode: 0555
 
 - name: Copy docker-compose.yml and its environment file
   copy: src={{ item.src }} dest={{ item.dest }} owner=ubuntu group=ubuntu mode=0644
