@@ -22,10 +22,10 @@
       "image_description": "Snowplow Mini - The Snowplow Pipeline in a box",
       "image_name": "snowplow-mini-{{user `gcp_version`}}-{{user `sp_mini_size`}}-{{timestamp}}",
       "machine_type": "{{user `gcp_machine_type`}}",
-      "project_id": "snowplow-images",
+      "project_id": "stan-test-snowplow",
       "source_image_family": "ubuntu-1604-lts",
       "ssh_username": "ubuntu",
-      "zone": "us-central1-a"
+      "zone": "australia-southeast1-a"
     }
   ],
   "post-processors": [],
