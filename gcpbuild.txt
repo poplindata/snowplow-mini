@@ -1,0 +1,16 @@
+vagrant up
+vagrant ssh
+echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list 
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - 
+sudo apt update && sudo apt install google-cloud-sdk
+sudo -i -u ubuntu
+gcloud auth application-default login
+export TRAVIS_BUILD_DIR=/vagrant
+cd /vagrant
+./.travis/deploy.sh /gcp/large
+
+copy instance template
+change instance image to newly created one
+add new instance template to instance group
+rolling update instance group to new template
+
