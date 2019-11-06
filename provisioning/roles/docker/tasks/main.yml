@@ -39,7 +39,7 @@
 
 - name: Increase mmap count to recommended 262144 for Elasticsearch
   become: yes
-  shell: echo "vm.max_map_count=262144" >> /etc/sysctl.conf && service procps restart
+  shell: echo "vm.max_map_count=262144\nnet.ipv4.ip_forward=1" >> /etc/sysctl.conf && service procps restart
 
 - name: Deploy snowplow mini
   become: yes
